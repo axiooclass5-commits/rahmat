@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rahmad Terminal Portfolio</title>
+  <style>
+    /* ===== RESET ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===== GLOBAL STYLE ===== */
+    body {
+      background: #000;
+      color: #00ff66;
+      font-family: "Courier New", monospace;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .terminal {
+      width: 100%;
+      max-width: 720px;
+      border: 2px solid #00ff66;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 0 15px rgba(0,255,102,.4);
+    }
+
+    .line {
+      margin: 6px 0;
+      word-wrap: break-word;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background: #00ff66;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%,50% { opacity: 1; }
+      51%,100% { opacity: 0; }
+    }
+
+    /* ===== MENU ===== */
+    .menu {
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .menu button {
+      background: transparent;
+      border: 1px solid #00ff66;
+      color: #00ff66;
+      padding: 6px 12px;
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all .2s ease;
+    }
+
+    .menu button:hover {
+      background: #00ff66;
+      color: #000;
+    }
+
+    /* ===== OUTPUT AREA ===== */
+    .output {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #00ff66;
+      min-height: 80px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .terminal {
+        padding: 12px;
+      }
+      .menu {
+        gap: 8px;
+      }
+      .menu button {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal">
+    <div class="line" id="typewriter"></div>
+    <span class="cursor" id="cursor"></span>
+
+    <div class="menu">
+      <button id="btnAbout">About</button>
+      <button id="btnSkills">Skills</button>
+      <button id="btnClear">Clear</button>
+    </div>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    /* ===== TYPEWRITER EFFECT ===== */
+    const text = "Welcome to Rahmad Server";
+    const speed = 80;
+    let i = 0;
+
+    const typeTarget = document.getElementById("typewriter");
+
+    function typeWriter() {
+      if (i < text.length) {
+        typeTarget.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    typeWriter();
+
+    /* ===== MENU INTERACTION ===== */
+    const output = document.getElementById("output");
+
+    document.getElementById("btnAbout").addEventListener("click", () => {
+      output.innerHTML = `
+        <div class="line">$ cat about.txt</div>
+        <div class="line">Nama   : Rahmad</div>
+        <div class="line">Status : Pelajar / IT Enthusiast</div>
+        <div class="line">Minat  : Networking, Linux, System Admin</div>
+      `;
+    });
+
+    document.getElementById("btnSkills").addEventListener("click", () => {
+      output.innerHTML = `
+        <div class="line">$ ls skills/</div>
+        <div class="line">- Mikrotik</div>
+        <div class="line">- Cisco</div>
+        <div class="line">- Linux</div>
+      `;
+    });
+
+    document.getElementById("btnClear").addEventListener("click", () => {
+      output.innerHTML = "";
+    });
+  </script>
+
+</body>
+  </html>
