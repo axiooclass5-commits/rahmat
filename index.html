@@ -6,11 +6,7 @@
   <title>Rahmad Terminal Portfolio</title>
   <style>
     /* ===== RESET ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ===== GLOBAL STYLE ===== */
     body {
@@ -26,75 +22,92 @@
 
     .terminal {
       width: 100%;
-      max-width: 720px;
+      max-width: 800px;
       border: 2px solid #00ff66;
       border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 0 15px rgba(0,255,102,.4);
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,255,102,.3);
+      background: rgba(0, 5, 0, 0.9);
     }
 
-    .line {
-      margin: 6px 0;
-      word-wrap: break-word;
-    }
-
+    .line { margin: 8px 0; word-wrap: break-word; line-height: 1.5; }
     .cursor {
       display: inline-block;
       width: 10px;
+      height: 18px;
       background: #00ff66;
-      margin-left: 4px;
+      vertical-align: middle;
       animation: blink 1s infinite;
     }
 
-    @keyframes blink {
-      0%,50% { opacity: 1; }
-      51%,100% { opacity: 0; }
-    }
+    @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
 
     /* ===== MENU ===== */
-    .menu {
-      margin-top: 12px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
+    .menu { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; }
     .menu button {
       background: transparent;
       border: 1px solid #00ff66;
       color: #00ff66;
-      padding: 6px 12px;
+      padding: 8px 15px;
       font-family: inherit;
       cursor: pointer;
       border-radius: 4px;
-      transition: all .2s ease;
+      transition: all .3s ease;
     }
-
-    .menu button:hover {
-      background: #00ff66;
-      color: #000;
-    }
+    .menu button:hover { background: #00ff66; color: #000; font-weight: bold; }
 
     /* ===== OUTPUT AREA ===== */
     .output {
-      margin-top: 14px;
-      padding-top: 10px;
-      border-top: 1px dashed #00ff66;
-      min-height: 80px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px double #00ff66;
+      min-height: 200px;
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== GALLERY STYLE ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .gallery-item {
+      border: 1px solid #00ff66;
+      padding: 5px;
+      text-align: center;
+      background: rgba(0, 255, 102, 0.05);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 5px;
+      filter: grayscale(40%) contrast(110%);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item img:hover {
+        filter: grayscale(0%) contrast(100%);
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+
+    .gallery-item span {
+      font-size: 10px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .highlight { color: #fff; font-weight: bold; }
+    .gold { color: #ffd700; font-weight: bold; }
+    .link { color: #fff; text-decoration: underline; }
+
     @media (max-width: 480px) {
-      .terminal {
-        padding: 12px;
-      }
-      .menu {
-        gap: 8px;
-      }
-      .menu button {
-        flex: 1;
-        text-align: center;
-      }
+      .menu button { flex: 1 1 45%; font-size: 11px; padding: 8px 5px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -102,60 +115,105 @@
 
   <div class="terminal">
     <div class="line" id="typewriter"></div>
-    <span class="cursor" id="cursor"></span>
+    <span class="cursor"></span>
 
     <div class="menu">
-      <button id="btnAbout">About</button>
-      <button id="btnSkills">Skills</button>
+      <button id="btnAbout">Brief explanation</button>
+      <button id="btnSkills">Capabilities</button>
+      <button id="btnGallery">Gallery</button> 
+      <button id="btnServices">Offerings</button>
+      <button id="btnContact">Contact me</button>
       <button id="btnClear">Clear</button>
     </div>
 
-    <div class="output" id="output"></div>
+    <div id="output" class="output">
+      <div class="line">Ready to optimize your network infrastructure...</div>
+      <div class="line">Type or click a menu to start.</div>
+    </div>
   </div>
 
   <script>
-    /* ===== TYPEWRITER EFFECT ===== */
-    const text = "Welcome to Rahmad Server";
-    const speed = 80;
+    const text = "Rahmad~Network-Specialist: Initializing Portfolio...";
     let i = 0;
-
-    const typeTarget = document.getElementById("typewriter");
-
     function typeWriter() {
       if (i < text.length) {
-        typeTarget.innerHTML += text.charAt(i);
+        document.getElementById("typewriter").innerHTML += text.charAt(i);
         i++;
-        setTimeout(typeWriter, speed);
+        setTimeout(typeWriter, 50);
       }
     }
-
     typeWriter();
 
-    /* ===== MENU INTERACTION ===== */
     const output = document.getElementById("output");
 
     document.getElementById("btnAbout").addEventListener("click", () => {
       output.innerHTML = `
-        <div class="line">$ cat about.txt</div>
-        <div class="line">Nama   : Rahmad</div>
-        <div class="line">Status : Pelajar / IT Enthusiast</div>
-        <div class="line">Minat  : Networking, Linux, System Admin</div>
+        <div class="line"> Profil Saya--</div>
+        <div class="line">Saya <span class="highlight">Rahmad</span>, seorang spesialis infrastruktur jaringan yang berfokus pada <span class="gold">stabilitas, keamanan, dan kecepatan data.</span></div>
+        <div class="line">Berpengalaman menangani masalah jaringan dari level fisik (kabel) hingga konfigurasi logic tingkat sedang.</div>
       `;
     });
 
     document.getElementById("btnSkills").addEventListener("click", () => {
       output.innerHTML = `
-        <div class="line">$ ls skills/</div>
-        <div class="line">- Mikrotik</div>
-        <div class="line">- Cisco</div>
-        <div class="line">- Linux</div>
+        <div class="line">~~run_check_skills-</div>
+        <div class="line"><span class="highlight">> Jaringan Fiber Optic:</span> Splicing presisi & penarikan kabel jalur sulit.</div>
+        <div class="line"><span class="highlight">> Keamanan MikroTik:</span> Firewall Filter Rules & Bandwidth Management.</div>
+        <div class="line"><span class="highlight">> Cisco Specialist:</span> Routing & Switching standar industri.</div>
+        <div class="line"><span class="highlight">> CCTV Ecosystem:</span> Instalasi & Maintenance 24/7.</div>
+      `;
+    });
+
+    // FUNGSI GALLERY DENGAN EMPAT GAMBAR LENGKAP
+    document.getElementById("btnGallery").addEventListener("click", () => {
+      output.innerHTML = `
+        <div class="line">$ ls /home/rahmad/projects/images</div>
+        <div class="line">Menampilkan dokumentasi pengerjaan lapangan:</div>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="https://iili.io/fs0156g.jpg" alt="Work 1">
+            <span>Maintenance Phase</span>
+          </div>
+          <div class="gallery-item">
+            <img src="https://iili.io/fs0PLG9.jpg" alt="Work 2">
+            <span>Core Network</span>
+          </div>
+          <div class="gallery-item">
+            <img src="https://iili.io/fs0bYfp.jpg" alt="Work 3">
+            <span>splicing bersama Lukman</span>
+          </div>
+          <div class="gallery-item">
+            <img src="https://iili.io/fs1KoNV.jpg" alt="Work 4">
+            <span>Monitoring cctv</span>
+          </div>
+        </div>
+        <div class="line" style="margin-top:10px;">Status: <span class="highlight">4 Files Synchronized ✓</span></div>
+      `;
+    });
+
+    document.getElementById("btnServices").addEventListener("click", () => {
+      output.innerHTML = `
+        <div class="line">$ query --available-services</div>
+        <div class="line"><span class="gold">[Solusi Produktivitas]</span> Filter MikroTik untuk fokus kerja.</div>
+        <div class="line"><span class="gold">[Instalasi FO]</span> Perluasan jaringan antar gedung.</div>
+        <div class="line"><span class="gold">[Security Audit]</span> Pengecekan rutin CCTV & Jaringan.</div>
+      `;
+    });
+
+    document.getElementById("btnContact").addEventListener("click", () => {
+      output.innerHTML = `
+        <div class="line"> start Rahmad</div>
+        <div class="line">--------------------------------------------</div>
+        <div class="line">WhatsApp : <a href="https://wa.me/6285790207737" class="link">+62 857-9020-7737</a></div>
+        <div class="line">Status   : <span class="highlight">Available for Freelance / Contract</span></div>
+        <div class="line">--------------------------------------------</div>
+        <div class="line">"Jaringan stabil, bisnis lancar, pikiran tenang😅."</div>
       `;
     });
 
     document.getElementById("btnClear").addEventListener("click", () => {
-      output.innerHTML = "";
+      output.innerHTML = "<div class='line'>Terminal cleared. Type command...</div>";
     });
   </script>
-
 </body>
-  </html>
+</html>
